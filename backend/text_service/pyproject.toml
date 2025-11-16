@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "text-service"
+version = "0.1.0"
+description = ""
+authors = ["Andrii Khomiak"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+ruff = "^0.14.5"
+unicorn = "^2.1.4"
+fastapi = "^0.121.2"
+aiohttp = "^3.13.2"
+uvicorn = "^0.38.0"
+pydantic = "^2.12.4"
+aioredis = "^2.0.1"
+minio = "^7.2.18"
+pytest = "^9.0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
