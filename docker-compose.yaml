@@ -1,0 +1,119 @@
+version: '3.8'
+
+services:
+
+  redis:
+    image: redis:latest
+    volumes:
+      - redis_data:/data
+    environment:
+      REDIS_PASSWORD: redis
+    ports:
+      - "6380:6379"
+    restart: unless-stopped
+
+
+
+  minio:
+    image: minio/minio:latest
+    volumes:
+      - minio_data:/data
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: minio7777
+    command: server /data
+    ports:
+      - "9000:9000"
+      - "33621:33621"
+    restart: unless-stopped
+
+
+
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./ssl:/etc/nginx/ssl
+    depends_on:
+        - text_service
+        - summary_service
+        - session_service
+#       - scheduler_service
+#       - ptt_service
+#       - frontend
+    restart: unless-stopped
+
+
+
+  text_service:
+    build: ./backend/text_service
+    image: text_service
+    container_name: text
+    depends_on:
+      - redis
+      - minio
+    ports:
+      - "127.0.0.1:8005:8000"
+    restart: unless-stopped
+
+
+
+  summary_service:
+    build: ./backend/summary_service
+    image: summary_service
+    container_name: summary
+    ports:
+      - "127.0.0.1:8004:8000"
+    restart: unless-stopped
+
+
+
+  session_service:
+    build: ./backend/session_service
+    image: session_service
+    container_name: session
+    depends_on:
+      - redis
+    ports:
+      - "127.0.0.1:8003:8000"
+    restart: unless-stopped
+
+
+
+
+#  scheduler_service:
+#    build: ./backend/scheduler_service
+#    image: scheduler_service
+#    container_name: scheduler
+#    depends_on:
+#      - redis
+#      - minio
+#    ports:
+#      - "127.0.0.1:8002:8000"
+#    restart: unless-stopped
+#
+#
+#  ptt_service:
+#    build: ./backend/ptt_service
+#    image: ptt_service
+#    container_name: ptt
+#    ports:
+#      - "127.0.0.1:8001:8000"
+#    restart: unless-stopped
+#
+#
+#  frontend:
+#    build: ./frontend
+#    image: frontend
+#    container_name: frontend
+#    restart: unless-stopped
+#
+
+volumes:
+  redis_data:
+  minio_data:
