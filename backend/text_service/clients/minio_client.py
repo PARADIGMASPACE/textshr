@@ -1,13 +1,10 @@
-import io
-import asyncio
 import logging
-from typing import Optional
 
-from .minio_factory import create_minio_client
+from .minio_factory import MinioSettings
 
 logger = logging.getLogger(__name__)
 
 class MinioClient:
     def __init__(self):
-        self.minio_factory = create_minio_client()
+        self.minio_factory = MinioSettings()
 

@@ -1,12 +1,12 @@
-import redis.asyncio as aioredis
-from ..config import settings
+import redis.asyncio as redis
+from ..config import RedisSettings
 
-def create_redis_client():
-    return aioredis.Redis(
+def create_RedisSettings():
+    settings = RedisSettings()
+    return redis.Redis(
         host=settings.REDIS_HOST,
         port=settings.REDIS_PORT,
         db=settings.REDIS_DB,
         password=settings.REDIS_PASSWORD,
-        ssl=settings.REDIS_TLS or False,
         decode_responses=True
     )

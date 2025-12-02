@@ -1,19 +1,29 @@
 from pydantic_settings import BaseSettings
 
-class ClientSettings(BaseSettings):
-    REDIS_HOST : str = "localhost"
-    REDIS_PORT : int = 6379
-    REDIS_DB : int = 0
-    REDIS_PASSWORD : str | None = None
-    REDIS_TLS : bool | None = None
-
-    MINIO_ENDPOINT: str = "localhost:9000"
-    MINIO_ACCESS_KEY: str = "minioadmin"
-    MINIO_SECRET_KEY: str = "minioadmin"
-    MINIO_SECURE: bool = True
-    MINIO_BUCKET: str = "textshr"
+class RedisSettings(BaseSettings):
+    REDIS_HOST: str
+    REDIS_PORT: int
+    REDIS_DB: int
+    REDIS_PASSWORD: str
 
     class Config:
         env_file = ".env"
+        env_file_encoding = "utf-8"
+        extra = "ignore"
 
-settings = ClientSettings()
+
+class MinioSettings(BaseSettings):
+    MINIO_ENDPOINT: str
+    MINIO_ACCESS_KEY: str
+    MINIO_SECRET_KEY: str
+    MINIO_SECURE: bool
+    MINIO_BUCKET: str
+
+    class Config:
+        env_file = ".env"
+        env_file_encoding = "utf-8"
+        extra = "ignore"
+
+
+redis_settings = RedisSettings()
+minio_settings = MinioSettings()
