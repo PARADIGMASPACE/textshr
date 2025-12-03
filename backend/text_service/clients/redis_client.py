@@ -23,7 +23,7 @@ class RedisClient:
             await self.redis.set(name=key, value=data, ttl=ttl )
             logger.info(f"SET {key} -> {data}")
         except Exception as e:
-            raise f"Redis SET error key={key}: {e}"
+            raise Exception(f"Redis SET error key={key}: {e}")
 
     async def get(self, key: str) -> dict:
         try:
@@ -33,7 +33,7 @@ class RedisClient:
             return data
 
         except Exception as e:
-            raise f"Redis GET error key={key}: {e}"
+            raise Exception(f"Redis GET error key={key}: {e}")
 
     async def update(self, key: str, value: dict, ttl: Optional[int] = None):
         try:
@@ -45,7 +45,7 @@ class RedisClient:
                 return True
             return False
         except Exception as e:
-            raise f"Redis UPDATE error key={key}: {e}"
+            raise Exception(f"Redis UPDATE error key={key}: {e}")
 
 
     async def delete(self, key: str):
@@ -58,7 +58,7 @@ class RedisClient:
             return False
 
         except Exception as e:
-            raise f"Redis DELETE error key={key}: {e}"
+            raise Exception(f"Redis DELETE error key={key}: {e}")
 
     async def _exists(self, key: str) -> bool:
         try:
@@ -67,7 +67,7 @@ class RedisClient:
             return exists
 
         except Exception as e:
-            raise f"Redis EXISTS error key={key}: {e}"
+            raise Exception(f"Redis EXISTS error key={key}: {e}")
 
     async def ping(self) -> bool:
         try:
