@@ -1,23 +1,24 @@
 import logging
 from minio import Minio
+from io import BytesIO
 from .minio_factory import create_minio_client
-from ..config import MinioSettings
+from ..config import minio_settings
 
 logger = logging.getLogger(__name__)
 
+
 class MinioClient:
     def __init__(self):
-        settings = MinioSettings()
-        self.bucket = settings.MINIO_BUCKET
+        self.bucket = minio_settings.MINIO_BUCKET
         self.client: Minio = create_minio_client()
-
 
     def set(self, object_name: str, data: bytes):
         try:
+            data_stream = BytesIO(data)
             self.client.put_object(
                 bucket_name=self.bucket,
                 object_name=object_name,
-                data=data,
+                data=data_stream,
                 length=len(data)
             )
             logger.info(f"UPLOAD {object_name} size={len(data)}")
@@ -58,7 +59,9 @@ class MinioClient:
         try:
             stat = self.client.stat_object(self.bucket, object_name)
             return stat is not None
-        except:
+        except Exception as e:
+            logger.debug(f"Object {object_name} not found: {e}")
             return False
+
 
 minio_client = MinioClient()
