@@ -85,4 +85,5 @@ class RedisClient:
         logger.info("Close Redis connection")
 
 
+
 text_client = RedisClient()
