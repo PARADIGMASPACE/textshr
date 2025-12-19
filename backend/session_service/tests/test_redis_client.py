@@ -1,17 +1,17 @@
 import json
 import pytest
-from unittest.mock import AsyncMock, MagicMock
-from ..client import RedisClient
+import unittest.mock
+from ..client.redis_client import RedisClient
 
 
 @pytest.fixture
 def mock_redis_client():
-    mock = AsyncMock()
-    mock.set = AsyncMock()
-    mock.get = AsyncMock()
-    mock.delete = AsyncMock()
-    mock.exists = AsyncMock()
-    mock.close = AsyncMock()
+    mock = unittest.mock.AsyncMock()
+    mock.set = unittest.mock.AsyncMock()
+    mock.get = unittest.mock.AsyncMock()
+    mock.delete = unittest.mock.AsyncMock()
+    mock.exists = unittest.mock.AsyncMock()
+    mock.close = unittest.mock.AsyncMock()
     return mock
 
 
