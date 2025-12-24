@@ -1,6 +1,6 @@
 from fastapi import APIRouter ,status , Response , HTTPException , Request
 from uuid import uuid4
-from ..client.redis_client import RedisClient
+from client.redis_client import RedisClient
 import time
 router = APIRouter(prefix="/v1/session", tags=["Session"])
 redis_client = RedisClient()
@@ -17,6 +17,7 @@ def generate_cookie(response: Response, session_id: str):
         samesite="strict",
         path="/"
     )
+
 
 
 @router.post("/session_create", status_code=status.HTTP_201_CREATED)

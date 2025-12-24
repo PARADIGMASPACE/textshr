@@ -12,7 +12,7 @@ with patch('session_service.client.redis_client.RedisClient') as MockRedisClient
     MockRedisClient.return_value = mock_instance
 
     # Тепер імпортуємо роутер
-    from .session import router
+    from routers.session import router
 
 # Створення тестового app
 app = FastAPI()
